@@ -1,0 +1,17 @@
+# Helm generated
+charts/
+*.tgz
+
+# Kustomize build output
+kustomize-output/
+
+# Secrets (never commit)
+*secret*.yaml
+*secrets*.yaml
+*.key
+*.crt
+*.pem
+
+# OS
+.DS_Store
+.vscode/

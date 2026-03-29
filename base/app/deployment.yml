@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-app
+  labels:
+    app: devops-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devops-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge:       1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: devops-app
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path:   "/metrics"
+        prometheus.io/port:   "5000"
+    spec:
+      # Security context — run as non-root
+      securityContext:
+        runAsNonRoot: true
+        runAsUser:    1000
+        fsGroup:      2000
+
+      containers:
+        - name: devops-app
+          image: ghcr.io/hugpaim/devops-lab-app:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+
+          envFrom:
+            - configMapRef:
+                name: devops-app-config
+
+          resources:
+            requests:
+              cpu:    "50m"
+              memory: "64Mi"
+            limits:
+              cpu:    "200m"
+              memory: "256Mi"
+
+          # Readiness — only route traffic when ready
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds:       10
+            failureThreshold:    3
+
+          # Liveness — restart if unhealthy
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds:       20
+            failureThreshold:    3
+
+          # Startup — extra time on cold start
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            failureThreshold: 10
+            periodSeconds:    5
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem:   true
+            capabilities:
+              drop: [ALL]
+
+      terminationGracePeriodSeconds: 30

@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: devops-app
+  annotations:
+    cert-manager.io/cluster-issuer:                    "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect:          "true"
+    nginx.ingress.kubernetes.io/rate-limit:            "100"
+spec:
+  tls:
+    - hosts:
+        - devops-app.yourdomain.com
+      secretName: devops-app-tls
+  rules:
+    - host: devops-app.yourdomain.com
+      http:
+        paths:
+          - path:     /
+            pathType: Prefix
+            backend:
+              service:
+                name: prod-devops-app
+                port:
+                  name: http

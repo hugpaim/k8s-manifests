@@ -1,0 +1,66 @@
+name: Validate Manifests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  # ── Validate Kustomize overlays ────────────────────
+  kustomize:
+    name: ☸️ Kustomize Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        overlay: [dev, prod]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: latest
+
+      - name: Build overlay — ${{ matrix.overlay }}
+        run: kubectl kustomize overlays/${{ matrix.overlay }}
+
+      - name: Dry-run against cluster (if available)
+        run: |
+          kubectl kustomize overlays/${{ matrix.overlay }} | \
+            kubectl apply --dry-run=client -f - || true
+
+  # ── Lint YAML ──────────────────────────────────────
+  yamllint:
+    name: 📋 YAML Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ibiqlik/action-yamllint@v3
+        with:
+          config_data: |
+            extends: default
+            rules:
+              line-length:
+                max: 120
+              truthy:
+                allowed-values: ['true', 'false']
+
+  # ── Validate Helm chart ────────────────────────────
+  helm:
+    name: ⛵ Helm Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: latest
+
+      - name: Helm lint
+        run: helm lint helm/devops-app
+
+      - name: Helm template (render check)
+        run: helm template devops-app helm/devops-app --debug > /dev/null
