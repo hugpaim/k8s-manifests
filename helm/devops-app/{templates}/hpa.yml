@@ -1,3 +1,4 @@
+---
 {{- if .Values.autoscaling.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -6,8 +7,8 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
-    kind:       Deployment
-    name:       {{ .Release.Name }}
+    kind: Deployment
+    name: {{ .Release.Name }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
@@ -15,6 +16,6 @@ spec:
       resource:
         name: cpu
         target:
-          type:               Utilization
+          type: Utilization
           averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
 {{- end }}
