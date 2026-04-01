@@ -1,3 +1,4 @@
+cat > overlays/dev/kustomization.yaml << 'EOF'
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -19,3 +20,4 @@ configMapGenerator:
     literals:
       - FLASK_ENV=development
       - LOG_LEVEL=DEBUG
+EOF
