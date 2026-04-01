@@ -1,16 +1,18 @@
+cat > base/kustomization.yaml << 'EOF'
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 namespace: devops-app
 
 resources:
-  - namespace.yaml
-  - configmap.yaml
+  - namespace/namespace.yaml
+  - configmap/configmap.yaml
   - app/deployment.yaml
   - app/service.yaml
   - app/hpa.yaml
-  - ingress.yaml
+  - ingress/ingress.yaml
 
 commonLabels:
-  app.kubernetes.io/name:       devops-app
+  app.kubernetes.io/name: devops-app
   app.kubernetes.io/managed-by: kustomize
+EOF
