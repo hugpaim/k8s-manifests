@@ -4,12 +4,12 @@ kind: Kustomization
 namespace: devops-app
 
 resources:
-  - namespace.yml
-  - configmap.yml
-  - app/deployment.yml
-  - app/service.yml
-  - app/hpa.yml
-  - ingress.yml
+  - namespace.yaml
+  - configmap.yaml
+  - app/deployment.yaml
+  - app/service.yaml
+  - app/hpa.yaml
+  - ingress.yaml
 
 commonLabels:
   app.kubernetes.io/name:       devops-app
