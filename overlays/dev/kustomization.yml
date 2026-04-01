@@ -9,9 +9,9 @@ resources:
   - ../../base
 
 patches:
-  - path: replica-patch.yml
-  - path: image-patch.yml
-  - path: ingress-patch.yml
+  - path: replica-patch.yaml
+  - path: image-patch.yaml
+  - path: ingress-patch.yaml
 
 configMapGenerator:
   - name: devops-app-config
