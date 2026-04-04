@@ -19,4 +19,5 @@ configMapGenerator:
     literals:
       - FLASK_ENV=development
       - LOG_LEVEL=DEBUG
+---      
 EOF
