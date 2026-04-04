@@ -15,4 +15,5 @@ resources:
 commonLabels:
   app.kubernetes.io/name: devops-app
   app.kubernetes.io/managed-by: kustomize
+---
 EOF
