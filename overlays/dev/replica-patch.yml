@@ -11,8 +11,8 @@ spec:
         - name: devops-app
           resources:
             requests:
-              cpu:    "25m"
+              cpu: "25m"
               memory: "32Mi"
             limits:
-              cpu:    "100m"
+              cpu: "100m"
               memory: "128Mi"

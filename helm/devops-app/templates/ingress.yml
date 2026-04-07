@@ -1,19 +1,25 @@
 ---
-{{-if .Values.ingress.enabled }}
+{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}
   labels:
     app: {{ .Release.Name }}
+    app.kubernetes.io/name: devops-app
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  {{- if .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+  {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
-  {{-if .Values.ingress.tls.enabled }}
+  {{- if .Values.ingress.tls.enabled }}
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
       secretName: {{ .Values.ingress.tls.secretName }}
-      {{-end }}
+  {{- end }}
   rules:
     - host: {{ .Values.ingress.host }}
       http:
@@ -25,4 +31,4 @@ spec:
                 name: {{ .Release.Name }}
                 port:
                   name: http
-{{-end }}
+{{- end }}

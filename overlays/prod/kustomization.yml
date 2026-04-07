@@ -1,10 +1,8 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
 ---
+apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: devops-dev
-
-namePrefix: dev-
+namespace: devops-prod
 
 resources:
   - ../../base
@@ -13,12 +11,11 @@ patches:
   - path: replica-patch.yml
   - path: image-patch.yml
   - path: ingress-patch.yml
+  - path: resources.patch.yml
 
 configMapGenerator:
   - name: devops-app-config
     behavior: merge
     literals:
-      - FLASK_ENV=development
-      - LOG_LEVEL=DEBUG
----      
-EOF
+      - FLASK_ENV=production
+      - LOG_LEVEL=INFO
