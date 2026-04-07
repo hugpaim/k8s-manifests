@@ -20,6 +20,11 @@ jobs:
         with:
           version: latest
 
+      - name: Set kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config  
+
       - name: Helm lint
         run: helm lint helm/devops-app
 
