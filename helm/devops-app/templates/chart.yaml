@@ -4,7 +4,7 @@ name: devops-app
 description: Helm chart for devops-app - Flask + Prometheus metrics
 type: application
 version: 0.1.0
-appVersion: "1.0.0"
+appVersion: "1.0"
 keywords:
   - devops
   - flask
