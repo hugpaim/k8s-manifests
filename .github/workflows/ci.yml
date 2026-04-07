@@ -1,3 +1,4 @@
+---
 name: Validate Manifests
 
 on:
@@ -7,10 +8,8 @@ on:
     branches: [main]
 
 jobs:
-
-  # ── Validate Kustomize overlays ────────────────────
   kustomize:
-    name: ☸️ Kustomize Build
+    name: Kustomize Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,7 +22,7 @@ jobs:
         with:
           version: latest
 
-      - name: Build overlay — ${{ matrix.overlay }}
+      - name: Build overlay - ${{ matrix.overlay }}
         run: kubectl kustomize overlays/${{ matrix.overlay }}
 
       - name: Dry-run against cluster (if available)
@@ -31,9 +30,8 @@ jobs:
           kubectl kustomize overlays/${{ matrix.overlay }} | \
             kubectl apply --dry-run=client -f - || true
 
-  # ── Lint YAML ──────────────────────────────────────
   yamllint:
-    name: 📋 YAML Lint
+    name: YAML Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -47,9 +45,8 @@ jobs:
               truthy:
                 allowed-values: ['true', 'false']
 
-  # ── Validate Helm chart ────────────────────────────
   helm:
-    name: ⛵ Helm Lint
+    name: Helm Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

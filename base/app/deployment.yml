@@ -13,7 +13,7 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge:       1
+      maxSurge: 1
       maxUnavailable: 0
   template:
     metadata:
@@ -21,14 +21,13 @@ spec:
         app: devops-app
       annotations:
         prometheus.io/scrape: "true"
-        prometheus.io/path:   "/metrics"
-        prometheus.io/port:   "5000"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "5000"
     spec:
-      # Security context — run as non-root
       securityContext:
         runAsNonRoot: true
-        runAsUser:    1000
-        fsGroup:      2000
+        runAsUser: 1000
+        fsGroup: 2000
 
       containers:
         - name: devops-app
@@ -45,41 +44,38 @@ spec:
 
           resources:
             requests:
-              cpu:    "50m"
+              cpu: "50m"
               memory: "64Mi"
             limits:
-              cpu:    "200m"
+              cpu: "200m"
               memory: "256Mi"
 
-          # Readiness — only route traffic when ready
           readinessProbe:
             httpGet:
               path: /ready
               port: 5000
             initialDelaySeconds: 5
-            periodSeconds:       10
-            failureThreshold:    3
+            periodSeconds: 10
+            failureThreshold: 3
 
-          # Liveness — restart if unhealthy
           livenessProbe:
             httpGet:
               path: /health
               port: 5000
             initialDelaySeconds: 15
-            periodSeconds:       20
-            failureThreshold:    3
+            periodSeconds: 20
+            failureThreshold: 3
 
-          # Startup — extra time on cold start
           startupProbe:
             httpGet:
               path: /health
               port: 5000
             failureThreshold: 10
-            periodSeconds:    5
+            periodSeconds: 5
 
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem:   true
+            readOnlyRootFilesystem: true
             capabilities:
               drop: [ALL]
 

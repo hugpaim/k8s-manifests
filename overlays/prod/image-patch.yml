@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -7,6 +8,5 @@ spec:
     spec:
       containers:
         - name: devops-app
-          # Pin to a specific SHA in prod — never use 'latest'
           image: ghcr.io/hugpaim/devops-lab-app:sha-abc1234
           imagePullPolicy: IfNotPresent
