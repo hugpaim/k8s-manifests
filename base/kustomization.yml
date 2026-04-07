@@ -1,5 +1,3 @@
-cat > base/kustomization.yaml << 'EOF'
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -16,5 +14,4 @@ resources:
 commonLabels:
   app.kubernetes.io/name: devops-app
   app.kubernetes.io/managed-by: kustomize
----
-EOF
+
