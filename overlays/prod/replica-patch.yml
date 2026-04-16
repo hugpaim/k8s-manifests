@@ -5,3 +5,4 @@ metadata:
   name: devops-app
 spec:
   replicas: 3
+---
