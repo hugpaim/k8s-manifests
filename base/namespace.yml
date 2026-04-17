@@ -5,3 +5,4 @@ metadata:
   name: devops-app
   labels:
     app.kubernetes.io/managed-by: kustomize
+---
