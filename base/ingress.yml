@@ -21,3 +21,4 @@ spec:
                 name: devops-app
                 port:
                   name: http
+---
