@@ -10,3 +10,4 @@ spec:
         - name: devops-app
           image: ghcr.io/hugpaim/devops-lab-app:latest
           imagePullPolicy: Always
+---
