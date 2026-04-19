@@ -19,3 +19,4 @@ configMapGenerator:
     literals:
       - FLASK_ENV=production
       - LOG_LEVEL=INFO
+---
