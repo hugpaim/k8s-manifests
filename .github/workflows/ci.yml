@@ -36,7 +36,8 @@ jobs:
           curl -L https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz
           ./kubeconform -strict -summary rendered.yaml
 
-      
+
+
   yamllint:
     name: YAML Lint
     runs-on: ubuntu-latest
