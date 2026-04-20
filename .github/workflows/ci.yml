@@ -1,7 +1,7 @@
 ---
 name: Helm CI
 
-on:
+"on":
   push:
     branches: [main]
   pull_request:
@@ -23,7 +23,7 @@ jobs:
       - name: Set kubeconfig
         run: |
           mkdir -p ~/.kube
-          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config  
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
 
       - name: Helm lint
         run: helm lint helm/devops-app
@@ -51,4 +51,3 @@ jobs:
             rules:
               line-length:
                 max: 120
-                
