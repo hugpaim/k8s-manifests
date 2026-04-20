@@ -31,12 +31,12 @@ jobs:
       - name: Helm template
         run: helm template devops-app helm/devops-app > rendered.yaml
 
-      - name: Setup kubectl
-        uses: azure/setup-kubectl@v3
+      - name: Validate manifests with kubeconform
+        run: |
+          curl -L https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz
+          ./kubeconform -strict -summary rendered.yaml
 
-      - name: Validate manifests
-        run: kubectl apply --dry-run=client --validate=false -f rendered.yaml
-
+      
   yamllint:
     name: YAML Lint
     runs-on: ubuntu-latest
